@@ -68,8 +68,8 @@ public class Plant {
     public String getWateringInfo() {
         LocalDate nextWatering = this.watering.plus(this.frequencyOfWatering);
         return "Název květiny: " + this.name +
-                ", datum poslední zálivky: " + watering.toString() +
-                ", datum doporučené další zálivky: " + nextWatering.toString() + ".";
+                ", datum poslední zálivky: " + watering +
+                ", datum doporučené další zálivky: " + nextWatering + ".";
     }
 
     public void doWateringNow() {
