@@ -9,19 +9,28 @@ public class Plant {
     private LocalDate watering;
     private Period frequencyOfWatering;
 
-    public Plant(String name, String note, LocalDate planted, LocalDate watering, Period frequencyOfWatering){
+    public Plant(String name, String note, LocalDate planted, LocalDate watering, Period frequencyOfWatering)
+    throws PlantException {
+        LocalDate base = LocalDate.now();
         this.name = name;
         this.note = note;
         this.planted = planted;
+        if (watering.isBefore(base)) {
+            throw new PlantException("Datum poslední zálivky nesmí být starší než datum zasazení rostliny.");
+        }
         this.watering = watering;
+        LocalDate target = base.plus(frequencyOfWatering);
+        if (target.isBefore(base) || target.isEqual(base)) {
+            throw new PlantException("Nelze zadat zápornou nebo nulovou hodnotu frekvence zálivky.");
+        }
         this.frequencyOfWatering = frequencyOfWatering;
     }
 
-    public Plant(String name, Period frequencyOfWatering) {
+    public Plant(String name, Period frequencyOfWatering) throws PlantException {
         this(name, "", LocalDate.now(), LocalDate.now(), frequencyOfWatering);
     }
 
-    public Plant(String name) {
+    public Plant(String name) throws PlantException {
         this(name, "", LocalDate.now(), LocalDate.now(), Period.ofDays(7));
     }
 
@@ -37,11 +46,20 @@ public class Plant {
         this.planted = planted;
     }
 
-    public void setWatering(LocalDate watering) {
+    public void setWatering(LocalDate watering) throws PlantException {
+        LocalDate base = LocalDate.now();
+        if (watering.isBefore(base)) {
+            throw new PlantException("Datum poslední zálivky nesmí být starší než datum zasazení rostliny.");
+        }
         this.watering = watering;
     }
 
-    public void setFrequencyOfWatering(Period frequencyOfWatering) {
+    public void setFrequencyOfWatering(Period frequencyOfWatering) throws PlantException {
+        LocalDate base = LocalDate.now();
+        LocalDate target = base.plus(frequencyOfWatering);
+        if (target.isBefore(base) || target.isEqual(base)) {
+            throw new PlantException("Nelze zadat zápornou nebo nulovou hodnotu frekvence zálivky.");
+        }
         this.frequencyOfWatering = frequencyOfWatering;
     }
 
