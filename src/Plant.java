@@ -1,8 +1,7 @@
 import java.time.Period;
-
 import java.time.LocalDate;
 
-public class Plant {
+public class Plant implements Comparable<Plant> {
     private String name;
     private String note;
     private LocalDate planted;
@@ -32,6 +31,14 @@ public class Plant {
 
     public Plant(String name) throws PlantException {
         this(name, "", LocalDate.now(), LocalDate.now(), Period.ofDays(7));
+    }
+
+    public Plant(String[] parts, int lineNumber) {
+        this.name = parts[0].trim();
+        this.note = parts[1].trim();
+        this.planted = LocalDate.parse(parts[4].trim());
+        this.watering = LocalDate.parse(parts[3].trim());
+        this.frequencyOfWatering = Period.parse(parts[2].trim());
     }
 
     public void setName(String name) {
@@ -92,5 +99,10 @@ public class Plant {
 
     public void doWateringNow() {
         this.watering = LocalDate.now();
+    }
+
+    @Override
+    public int compareTo(Plant other) {
+        return name.compareTo(other.name);
     }
 }
