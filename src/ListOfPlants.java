@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -63,7 +61,7 @@ public class ListOfPlants {
         listOfPlants.sort(Comparator.comparing(Plant::getWatering).reversed());
     }
 
-    public void readPlantsFromFile(String filePath, String delimeter) throws PlantException {
+    public void readFromFile(String filePath, String delimeter) throws PlantException {
         try(Scanner scanner = new Scanner(new BufferedReader(new FileReader(filePath)))) {
             int lineNumber = 0;
             while (scanner.hasNextLine()) {
@@ -73,7 +71,15 @@ public class ListOfPlants {
                 listOfPlants.add(new Plant(parts, lineNumber));
             }
         } catch (FileNotFoundException e) {
-            throw new PlantException("Soubor " + filePath + "  " + e.getLocalizedMessage());
+            throw new PlantException("Soubor " + filePath + " nelze otevřít: " + e.getLocalizedMessage());
+        }
+    }
+
+    public void writeToTextFile(String filePath, String delimeter) throws PlantException {
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(filePath)))) {
+            for (Plant plant : listOfPlants) writer.println(plant.toTextRecord(delimeter));
+        } catch (IOException e) {
+            throw new PlantException(" " + e.getMessage());
         }
     }
 }
