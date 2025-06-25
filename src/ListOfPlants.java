@@ -33,7 +33,7 @@ public class ListOfPlants {
     }
 
     public void removePlant(int index) {
-        listOfPlants.remove(index);
+        listOfPlants.remove(index - 1);
     }
 
     public void removePlant(Plant plant) {

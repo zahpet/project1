@@ -1,19 +1,54 @@
+import java.time.LocalDate;
+import java.time.Period;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    private static final String FILE_PATH = "";
+    private static final String FOLDER_PATH = "C:\\Users\\zahpet\\OneDrive - FORTUNA GAME a.s\\Documents\\Java\\Projects\\Project1";
+    private static final String FILE_NAME1 = "kvetiny-spatne-datum.txt";
+    private static final String FILE_NAME2 = "kvetiny-spatne-frekvence.txt";
+    private static final String FILE_NAME3 = "kvetiny.txt";
+    private static final String OUTPUT_FILE = "output.txt";
     private static final String DELIMETER = "\t";
 
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+    public static void main(String[] args) throws PlantException {
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        // ListOfPlants plants1 = new ListOfPlants();
+        // plants1.readFromFile(FOLDER_PATH + "\\" + FILE_NAME1, DELIMETER);
+
+        // ListOfPlants plants2 = new ListOfPlants();
+        // plants2.readFromFile(FOLDER_PATH + "\\" + FILE_NAME2, DELIMETER);
+
+        ListOfPlants plants3 = new ListOfPlants();
+        plants3.readFromFile(FOLDER_PATH + "\\" + FILE_NAME3, DELIMETER);
+
+        System.out.println("Květina" + "\t" + "zalitá dne");
+        for (Plant plant : plants3.getListOfPlants()) {
+            System.out.println(plant.getName() + "\t" + plant.getWatering().toString());
         }
+
+        plants3.addPlant(new Plant("Levandule", "nerozkvetlá sazenice",
+                LocalDate.of(2022, 8, 11),
+                LocalDate.of(2022, 9, 20),
+                Period.ofDays(30)));
+
+        int i;
+        for (i = 1; i <= 10; i++) {
+            plants3.addPlant(new Plant("Tulipán na prodej " + i));
+            plants3.getPlant(plants3.getListOfPlants().size() - 1).setFrequencyOfWatering(Period.ofDays(14));
+        }
+
+        plants3.removePlant(3);
+
+        plants3.writeToTextFile(FOLDER_PATH + "\\" + OUTPUT_FILE, DELIMETER);
+
+        ListOfPlants plants4 = new ListOfPlants();
+        plants4.readFromFile(FOLDER_PATH + "\\" + OUTPUT_FILE, DELIMETER);
+
+        plants4.sort();
+        for (Plant plant : plants4.getListOfPlants()) System.out.println(plant);
+
+
     }
 }

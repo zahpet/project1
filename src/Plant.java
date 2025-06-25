@@ -45,7 +45,7 @@ public class Plant implements Comparable<Plant> {
             this.note = parts[1].trim();
             this.planted = LocalDate.parse(parts[4].trim());
             this.watering = LocalDate.parse(parts[3].trim());
-            this.frequencyOfWatering = Period.parse(parts[2].trim());
+            this.frequencyOfWatering = Period.ofDays(Integer.parseInt(parts[2].trim()));
         } catch (NumberFormatException e) {
             throw new PlantException("Chyba při načtení číselné hodnoty na řádku " + lineNumber
                                         + ": " + e.getMessage());
@@ -53,7 +53,6 @@ public class Plant implements Comparable<Plant> {
             throw new PlantException("Chyba při načtení hodnoty data na řádku " + lineNumber
                     + ": " + e.getMessage());
         }
-
     }
 
     public void setName(String name) {
@@ -69,8 +68,7 @@ public class Plant implements Comparable<Plant> {
     }
 
     public void setWatering(LocalDate watering) throws PlantException {
-        LocalDate base = LocalDate.now();
-        if (watering.isBefore(base)) {
+        if (watering.isBefore(this.planted)) {
             throw new PlantException("Datum poslední zálivky nesmí být starší než datum zasazení rostliny.");
         }
         this.watering = watering;
@@ -125,9 +123,9 @@ public class Plant implements Comparable<Plant> {
         String result = "";
         result += this.name + delimeter
                 + this.note + delimeter
-                + this.planted.toString() + delimeter
+                + this.frequencyOfWatering.getDays() + delimeter
                 + this.watering.toString() + delimeter
-                + this.frequencyOfWatering.toString();
+                + this.planted.toString();
         return result;
     }
 }
