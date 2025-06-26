@@ -32,6 +32,10 @@ public class Main {
                 LocalDate.of(2022, 8, 11),
                 LocalDate.of(2022, 9, 20),
                 Period.ofDays(30)));
+        System.out.println();
+        System.out.println(plants3.getPlant(2).getName());
+        System.out.println(plants3.getPlant(2).getFrequencyOfWatering().getDays());
+        System.out.println(plants3.getPlant(2).getWatering().toString());
 
         int i;
         for (i = 1; i <= 10; i++) {
@@ -46,9 +50,15 @@ public class Main {
         ListOfPlants plants4 = new ListOfPlants();
         plants4.readFromFile(FOLDER_PATH + "\\" + OUTPUT_FILE, DELIMETER);
 
+        System.out.println();
+        System.out.println("Řazení seznamu podle názvu:");
         plants4.sort();
-        for (Plant plant : plants4.getListOfPlants()) System.out.println(plant);
+        plants4.getListOfPlants().forEach(System.out::println);
 
+        System.out.println();
+        System.out.println("Řazení seznamu podle poslední zálivky:");
+        plants4.sortByWatering();
+        plants4.getListOfPlants().forEach(System.out::println);
 
     }
 }

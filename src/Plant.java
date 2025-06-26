@@ -1,5 +1,6 @@
 import java.time.Period;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
@@ -116,7 +117,18 @@ public class Plant implements Comparable<Plant> {
 
     @Override
     public int compareTo(Plant other) {
-        return name.compareTo(other.name);
+        return this.name.compareTo(other.name);
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return "Rostlina " + this.name + " = {" +
+                "poznámky: " + this.note + ", " +
+                "frekvence zálivky [dny]: " + this.frequencyOfWatering.getDays() + ", " +
+                "datum poslední zálivky: " + this.watering.format(formatter) + ", " +
+                "datum zasazení: " + this.planted.format(formatter) +
+                "}";
     }
 
     public String toTextRecord(String delimeter) {
