@@ -18,21 +18,21 @@ public class Main {
         try {
             plants1.readFromFile(FOLDER_PATH + "\\" + FILE_NAME1, DELIMETER);
         } catch (PlantException e) {
-            System.err.println("Chyba při načtení souboru " + FILE_NAME1 + " " + e.getMessage());
+            System.err.println("Chyba při načtení souboru " + FILE_NAME1 + ": " + e.getMessage());
         }
 
         ListOfPlants plants2 = new ListOfPlants();
         try {
             plants2.readFromFile(FOLDER_PATH + "\\" + FILE_NAME2, DELIMETER);
         } catch (PlantException e) {
-            System.err.println("Chyba při načtení souboru " + FILE_NAME2 + " " + e.getMessage());
+            System.err.println("Chyba při načtení souboru " + FILE_NAME2 + ": " + e.getMessage());
         }
 
         ListOfPlants plants3 = new ListOfPlants();
         try {
             plants3.readFromFile(FOLDER_PATH + "\\" + FILE_NAME3, DELIMETER);
         } catch (PlantException e) {
-            System.err.println("Chyba při načtení souboru " + FILE_NAME3 + " " + e.getMessage());
+            System.err.println("Chyba při načtení souboru " + FILE_NAME3 + ": " + e.getMessage());
         }
 
 
