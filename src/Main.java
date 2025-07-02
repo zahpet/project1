@@ -5,7 +5,7 @@ import java.time.Period;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    private static final String FOLDER_PATH = "C:\\Users\\zahpet\\OneDrive - FORTUNA GAME a.s\\Documents\\Java\\Projects\\Project1";
+    private static final String FOLDER_PATH = System.getProperty("user.dir");
     private static final String FILE_NAME1 = "kvetiny-spatne-datum.txt";
     private static final String FILE_NAME2 = "kvetiny-spatne-frekvence.txt";
     private static final String FILE_NAME3 = "kvetiny.txt";
@@ -14,14 +14,27 @@ public class Main {
 
     public static void main(String[] args) throws PlantException {
 
-        // ListOfPlants plants1 = new ListOfPlants();
-        // plants1.readFromFile(FOLDER_PATH + "\\" + FILE_NAME1, DELIMETER);
+        ListOfPlants plants1 = new ListOfPlants();
+        try {
+            plants1.readFromFile(FOLDER_PATH + "\\" + FILE_NAME1, DELIMETER);
+        } catch (PlantException e) {
+            System.err.println("Chyba při načtení souboru " + FILE_NAME1 + " " + e.getMessage());
+        }
 
-        // ListOfPlants plants2 = new ListOfPlants();
-        // plants2.readFromFile(FOLDER_PATH + "\\" + FILE_NAME2, DELIMETER);
+        ListOfPlants plants2 = new ListOfPlants();
+        try {
+            plants2.readFromFile(FOLDER_PATH + "\\" + FILE_NAME2, DELIMETER);
+        } catch (PlantException e) {
+            System.err.println("Chyba při načtení souboru " + FILE_NAME2 + " " + e.getMessage());
+        }
 
         ListOfPlants plants3 = new ListOfPlants();
-        plants3.readFromFile(FOLDER_PATH + "\\" + FILE_NAME3, DELIMETER);
+        try {
+            plants3.readFromFile(FOLDER_PATH + "\\" + FILE_NAME3, DELIMETER);
+        } catch (PlantException e) {
+            System.err.println("Chyba při načtení souboru " + FILE_NAME3 + " " + e.getMessage());
+        }
+
 
         System.out.println("Květina" + "\t" + "zalitá dne");
         for (Plant plant : plants3.getListOfPlants()) {

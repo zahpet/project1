@@ -17,11 +17,11 @@ public class ListOfPlants {
     }
 
     public List<Plant> getListOfPlants() {
-        return listOfPlants;
+        return new ArrayList<>(listOfPlants);
     }
 
     public void setListOfPlants(List<Plant> listOfPlants) {
-        this.listOfPlants = listOfPlants;
+        this.listOfPlants = new ArrayList<>(listOfPlants);
     }
 
     public void addPlant(Plant plant) {
@@ -68,7 +68,7 @@ public class ListOfPlants {
                 String record = scanner.nextLine();
                 lineNumber++;
                 String[] parts = record.split(delimeter);
-                listOfPlants.add(new Plant(parts, lineNumber));
+                listOfPlants.add(Plant.build(parts, lineNumber));
             }
         } catch (FileNotFoundException e) {
             throw new PlantException("Soubor " + filePath + " nelze otevřít: " + e.getLocalizedMessage());

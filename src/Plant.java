@@ -13,19 +13,11 @@ public class Plant implements Comparable<Plant> {
 
     public Plant(String name, String note, LocalDate planted, LocalDate watering, Period frequencyOfWatering)
     throws PlantException {
-        this.name = name;
-        this.note = note;
-        this.planted = planted;
-        if (watering.isBefore(planted)) {
-            throw new PlantException("Datum poslední zálivky nesmí být starší než datum zasazení rostliny.");
-        }
-        this.watering = watering;
-        LocalDate base = LocalDate.now();
-        LocalDate target = base.plus(frequencyOfWatering);
-        if (target.isBefore(base) || target.isEqual(base)) {
-            throw new PlantException("Nelze zadat zápornou nebo nulovou hodnotu frekvence zálivky.");
-        }
-        this.frequencyOfWatering = frequencyOfWatering;
+        this.setName(name);
+        this.setNote(note);
+        this.setPlanted(planted);
+        this.setWatering(watering);
+        this.setFrequencyOfWatering(frequencyOfWatering);
     }
 
     public Plant(String name, Period frequencyOfWatering) throws PlantException {
@@ -36,20 +28,21 @@ public class Plant implements Comparable<Plant> {
         this(name, "", LocalDate.now(), LocalDate.now(), Period.ofDays(7));
     }
 
-    public Plant(String[] parts, int lineNumber) throws PlantException {
+    static public Plant build(String[] parts, int lineNumber) throws PlantException {
         final int EXPECTED_LENGTH = 5;
         if (parts.length != EXPECTED_LENGTH)
             throw new PlantException("Očekává se načtení " + EXPECTED_LENGTH + " položek na řádku: " + lineNumber
-                                        + Arrays.toString(parts));
+                    + Arrays.toString(parts));
         try {
-            this.name = parts[0].trim();
-            this.note = parts[1].trim();
-            this.planted = LocalDate.parse(parts[4].trim());
-            this.watering = LocalDate.parse(parts[3].trim());
-            this.frequencyOfWatering = Period.ofDays(Integer.parseInt(parts[2].trim()));
+            String name = parts[0].trim();
+            String note = parts[1].trim();
+            LocalDate planted = LocalDate.parse(parts[4].trim());
+            LocalDate watering = LocalDate.parse(parts[3].trim());
+            Period frequencyOfWatering = Period.ofDays(Integer.parseInt(parts[2].trim()));
+            return new Plant(name, note, planted, watering, frequencyOfWatering);
         } catch (NumberFormatException e) {
             throw new PlantException("Chyba při načtení číselné hodnoty na řádku " + lineNumber
-                                        + ": " + e.getMessage());
+                    + ": " + e.getMessage());
         } catch (DateTimeParseException e) {
             throw new PlantException("Chyba při načtení hodnoty data na řádku " + lineNumber
                     + ": " + e.getMessage());
@@ -122,7 +115,7 @@ public class Plant implements Comparable<Plant> {
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
         return "Rostlina " + this.name + " = {" +
                 "poznámky: " + this.note + ", " +
                 "frekvence zálivky [dny]: " + this.frequencyOfWatering.getDays() + ", " +
